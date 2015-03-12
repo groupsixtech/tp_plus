@@ -482,12 +482,12 @@ end)
     assert_node_type MotionNode, last_node
   end
 
-  def test_Address
+  def test_parse_address
     parse("foo := R[1]\n &foo")
     assert_node_type AddressNode, last_node
   end
 
-  def test_Address_Function_Parse
+  def test_parse_address_as_argument
     parse("foo := R[1]\n foo2 := R[5]\n foo3 := R[10]\n Func(&foo, &foo2, &foo3)")
     l = last_node
     assert_equal 3, l.args.length

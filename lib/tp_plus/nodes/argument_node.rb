@@ -2,6 +2,7 @@ module TPPlus
   module Nodes
     class ArgumentNode
       attr_accessor :comment
+      attr_reader :id
       def initialize(id)
         @id = id
         @comment = comment

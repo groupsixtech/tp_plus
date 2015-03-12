@@ -154,7 +154,7 @@ class TestInterpreter < Test::Unit::TestCase
 
   def test_inline_io_method
     parse("foo := DO[1]\nbar := R[1]\nturn_on foo if bar < 10\n")
-   assert_prog "IF (R[1:bar]<10),DO[1:foo]=(ON) ;\n" 
+    assert_prog "IF (R[1:bar]<10),DO[1:foo]=(ON) ;\n"
   end
 
   def test_program_call
@@ -835,23 +835,25 @@ Foo::Bar::baz = 2)
       {
         'id': 1,
         'comment': "test",
-        'group': 1,
-        'uframe': 1,
-        'utool': 1,
-        'config': {
-          'flip': true,
-          'up': true,
-          'top': false,
-          'turn_counts': [-1,0,1]
-        },
-        'components': {
-          'x': -50.0,
-          'y': 0.0,
-          'z': 0.0,
-          'w': 0.0,
-          'p': 0.0,
-          'r': 0.0
-        }
+        'mask' : [{
+          'group': 1,
+          'uframe': 1,
+          'utool': 1,
+          'config': {
+            'flip': true,
+            'up': true,
+            'top': false,
+            'turn_counts': [-1,0,1]
+          },
+          'components': {
+            'x': -50.0,
+            'y': 0.0,
+            'z': 0.0,
+            'w': 0.0,
+            'p': 0.0,
+            'r': 0.0
+          }
+        }]
       }
     ]
   }
@@ -867,23 +869,25 @@ end)
       {
         'id': 1,
         'comment': "test",
-        'group': 1,
-        'uframe': 1,
-        'utool': 1,
-        'config': {
-          'flip': true,
-          'up': true,
-          'top': false,
-          'turn_counts': [0,0,0]
-        },
-        'components': {
-          'x': 0.0,
-          'y': 0.0,
-          'z': 0.0,
-          'w': 0.0,
-          'p': 0.0,
-          'r': 0.0
-        }
+        'mask': [{
+          'group': 1,
+          'uframe': 1,
+          'utool': 1,
+          'config': {
+            'flip': true,
+            'up': true,
+            'top': false,
+            'turn_counts': [0,0,0]
+          },
+          'components': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0,
+            'w': 0.0,
+            'p': 0.0,
+            'r': 0.0
+          }
+        }]
       }
     ]
   }
@@ -911,23 +915,25 @@ end)
       {
         'id': 1,
         'comment': "test",
-        'group': 1,
-        'uframe': 1,
-        'utool': 1,
-        'config': {
-          'flip': true,
-          'up': true,
-          'top': true,
-          'turn_counts': [0,0,0]
-        },
-        'components': {
-          'x': 0.0,
-          'y': 0.0,
-          'z': 0.0,
-          'w': 0.0,
-          'p': 0.0,
-          'r': 0.0
-        }
+        'mask' : [{
+          'group': 1,
+          'uframe': 1,
+          'utool': 1,
+          'config': {
+            'flip': true,
+            'up': true,
+            'top': true,
+            'turn_counts': [0,0,0]
+          },
+          'components': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0,
+            'w': 0.0,
+            'p': 0.0,
+            'r': 0.0
+          }
+        }]
       }
     ]
   }
@@ -935,11 +941,10 @@ end)
 
     assert_prog ""
     assert_equal %(P[1:"test"]{
-GP1:
-      UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
-      X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
-      W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
-
+   GP1:
+  UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
+  X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
+  W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
 };\n), @interpreter.pos_section
   end
 
@@ -950,44 +955,48 @@ GP1:
       {
         'id': 1,
         'comment': "test",
-        'group': 1,
-        'uframe': 1,
-        'utool': 1,
-        'config': {
-          'flip': true,
-          'up': true,
-          'top': true,
-          'turn_counts': [0,0,0]
-        },
-        'components': {
-          'x': 0.0,
-          'y': 0.0,
-          'z': 0.0,
-          'w': 0.0,
-          'p': 0.0,
-          'r': 0.0
-        }
+        'mask': [{
+          'group': 1,
+          'uframe': 1,
+          'utool': 1,
+          'config': {
+            'flip': true,
+            'up': true,
+            'top': true,
+            'turn_counts': [0,0,0]
+          },
+          'components': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0,
+            'w': 0.0,
+            'p': 0.0,
+            'r': 0.0
+          }
+        }]
       },
       {
         'id': 2,
         'comment': "test2",
-        'group': 1,
-        'uframe': 1,
-        'utool': 1,
-        'config': {
-          'flip': true,
-          'up': true,
-          'top': true,
-          'turn_counts': [0,0,0]
-        },
-        'components': {
-          'x': 0.0,
-          'y': 0.0,
-          'z': 0.0,
-          'w': 0.0,
-          'p': 0.0,
-          'r': 0.0
-        }
+        'mask': [{
+          'group': 1,
+          'uframe': 1,
+          'utool': 1,
+          'config': {
+            'flip': true,
+            'up': true,
+            'top': true,
+            'turn_counts': [0,0,0]
+          },
+          'components': {
+            'x': 0.0,
+            'y': 0.0,
+            'z': 0.0,
+            'w': 0.0,
+            'p': 0.0,
+            'r': 0.0
+          }
+        }]
       }
     ]
   }
@@ -995,18 +1004,16 @@ end)
 
     assert_prog ""
     assert_equal %(P[1:"test"]{
-GP1:
-      UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
-      X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
-      W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
-
+   GP1:
+  UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
+  X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
+  W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
 };
 P[2:"test2"]{
-GP1:
-      UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
-      X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
-      W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
-
+   GP1:
+  UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
+  X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
+  W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
 };\n), @interpreter.pos_section
   end
 
@@ -1179,7 +1186,43 @@ GP1:
     assert_prog "ABORT ;\n"
   end
 
-  def test_position_data_populates_interpreter_position_data
+  def test_div
+    parse %(foo := R[1]\nfoo = 1 DIV 5)
+    assert_prog "R[1:foo]=1 DIV 5 ;\n"
+  end
+
+  def test_conditional_equals
+    parse("foo := R[1]\nfoo2 := R[2]\nif foo == foo2\nfoo = 1\nfoo2 = 2\nend")
+    assert_prog "IF R[1:foo]<>R[2:foo2],JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
+  end
+
+  def test_if_statement_multiple_arguments
+    parse("foo := R[1]\nfoo2 := R[2]\nif foo == 1 && foo2 == 2\nfoo = 1\nfoo2 = 2\nend")
+    assert_prog "IF (R[1:foo]<>1 OR R[2:foo2]<>2),JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
+  end
+
+  def test_parse_error_on_invalid_term
+    assert_raise do
+      parse("foo := PR[1]\nlinear_move.to(foo).at(2000, 'mm/s').term(-2)")
+    end
+  end
+
+  def test_term_fine_with_constant
+    parse("foo := PR[1]\nTERM := -1\nlinear_move.to(foo).at(2000, 'mm/s').term(TERM)")
+    assert_prog "L PR[1:foo] 2000mm/sec FINE ;\n"
+  end
+
+  def test_term_cnt_with_constant
+    parse("foo := PR[1]\nTERM := 100\nlinear_move.to(foo).at(2000, 'mm/s').term(TERM)")
+    assert_prog "L PR[1:foo] 2000mm/sec CNT100 ;\n"
+  end
+
+  def test_pr_components_groups
+    parse("foo := PR[1]\nfoo.group(1).y=5\n")
+    assert_prog "PR[GP1:1,2:foo]=5 ;\n"
+  end
+
+  def test_position_data_with_mask
     parse %(position_data
 {
   'positions' : [
@@ -1222,41 +1265,6 @@ end)
     assert_equal 1, @interpreter.position_data[:positions].length
   end
 
-  def test_simple_linear_motion
-    parse("foo := PR[1]\nlinear_move.to(foo).at(2000, 'mm/s').term(-1)")
-    assert_prog "L PR[1:foo] 2000mm/sec FINE ;\n"
-  end
-
-  def test_pr_components_groups
-    parse("foo := PR[1]\nfoo2 := R[1]\nfoo.gp3.y=(5*foo2)\n")
-    assert_prog "PR[GP3:1,2:foo]=(5*R[1:foo2]) ;\n"
-  end
-
-  def test_if_statement_multiple_arguments
-    parse("foo := R[1]\nfoo2 := R[2]\nif foo == 1 && foo2 == 2\nfoo = 1\nfoo2 = 2\nend")
-    assert_prog "IF (R[1:foo]<>1 OR R[2:foo2]<>2),JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
-  end
-
-  def test_div_statement
-    parse("foo := R[1]\nfoo2 := R[2]\nfoo2 = foo DIV 2")
-    assert_prog "R[2:foo2]=R[1:foo] DIV 2 ;\n"
-  end
-
-  def test_conditional_equals
-    parse("foo := R[1]\nfoo2 := R[2]\nif foo == foo2\nfoo = 1\nfoo2 = 2\nend")
-    assert_prog "IF R[1:foo]<>R[2:foo2],JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
-  end
-
-  def test_div
-    parse %(foo := R[1]\nfoo = 1 DIV 5)
-    assert_prog "R[1:foo]=1 DIV 5 ;\n"
-  end
-
-  def test_conditional_equals
-    parse("foo := R[1]\nfoo2 := R[2]\nif foo == foo2\nfoo = 1\nfoo2 = 2\nend")
-    assert_prog "IF R[1:foo]<>R[2:foo2],JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
-  end
-
   def test_conditional_equals_minus_one
     parse("foo := R[1]\nfoo2 := R[2]\nif foo == (foo2-1)\nfoo = 1\nfoo2 = 2\nend")
     assert_prog "IF (R[1:foo]<>(R[2:foo2]-1)),JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
@@ -1264,50 +1272,38 @@ end)
 
   def test_conditional_equals_minus_and
     parse("foo := R[1]\nfoo2 := R[2]\nif foo >= (foo2-1) && foo <= (foo2+1) \nfoo = 1\nfoo2 = 2\nend")
-    assert_prog "IF (R[1:foo]<(R[2:foo2]-1) OR (R[1:foo]>(R[2:foo2]+1)),JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
+    assert_prog "IF (R[1:foo]<(R[2:foo2]-1) OR R[1:foo]>(R[2:foo2]+1)),JMP LBL[100] ;\nR[1:foo]=1 ;\nR[2:foo2]=2 ;\nLBL[100] ;\n"
   end
 
   def test_inline_conditional_equals_minus_and
     parse("foo := R[1]\nfoo2 := R[2]\nif foo >= (foo2-1) && foo <= (foo2+1) \nfoo2 = 2\nend")
-    assert_prog "IF (R[1:foo]>=(R[2:foo2]-1) AND (R[1:foo]<=(R[2:foo2]+1)),R[2:foo2]=(2) ;\n"
+    assert_prog "IF (R[1:foo]>=(R[2:foo2]-1) AND R[1:foo]<=(R[2:foo2]+1)),R[2:foo2]=(2) ;\n"
   end
 
-  def test_fine_termination
-    parse("foo := PR[1]\nlinear_move.to(foo).at(2000, 'mm/s').term(-1)")
-    assert_prog "L PR[1:foo] 2000mm/sec FINE ;\n"
+  def test_address
+    parse("a := AR[1]
+b := DI[2]
+c := R[3]
+d := P[4]
+e := PR[5]
+f := SR[6]
+g := TIMER[7]
+h := UALM[8]
+i := VR[9]
+TEST(&a,&b,&c,&d,&e,&f,&g,&h,&i)")
+    assert_prog "CALL TEST(1,2,3,4,5,6,7,8,9) ;\n"
   end
 
-  def test_parse_error_on_invalid_term
-    assert_raise do
-      parse("foo := PR[1]\nlinear_move.to(foo).at(2000, 'mm/s').term(-2)")
+  def test_address_assignment
+    parse("foo := R[1]
+foo = &foo")
+    assert_prog "R[1:foo]=1 ;\n"
+  end
+
+  def test_invalid_address_throws_error
+    parse("foo := R[1]\nfoo = &bar")
+    assert_raise(RuntimeError) do
+      assert_prog ""
     end
   end
-
-  def test_term_fine_with_constant
-    parse("foo := PR[1]\nTERM := -1\nlinear_move.to(foo).at(2000, 'mm/s').term(TERM)")
-    assert_prog "L PR[1:foo] 2000mm/sec FINE ;\n"
-  end
-
-  def test_term_cnt_with_constant
-    parse("foo := PR[1]\nTERM := 100\nlinear_move.to(foo).at(2000, 'mm/s').term(TERM)")
-    assert_prog "L PR[1:foo] 2000mm/sec CNT100 ;\n"
-  end
-
-  def test_Addres_Op
-    parse("foo := PR[100]\n &foo\n")
-    assert_prog "100 ;\n"
-  end
-
-  def test_Addres_Flag
-    parse("foo := F[3]\n &foo\n")
-    assert_prog "3 ;\n"
-  end
-
-  def test_Address_in_Function
-    parse("foo := R[1]\n foo2 := R[5]\n foo3 := R[10]\n Func(&foo, &foo2, &foo3)\n")
-    assert_prog "CALL FUNC(1,5,10) ;\n"
-  end
-
 end
-
-

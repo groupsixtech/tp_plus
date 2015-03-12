@@ -346,32 +346,56 @@ rule
     ;
 
   var
-     : WORD                             { result = VarNode.new(val[0]) }
-     | WORD var_method_modifiers        { result = VarMethodNode.new(val[0],val[1]) }
-     # introduces 2 reduce/reduce conflicts and 1 useless rule
-     | namespaces var           { result = NamespacedVarNode.new(val[0],val[1]) }
-     ;
+    : var_without_namespaces
+    | var_with_namespaces
+    ;
+
+  var_without_namespaces
+    : WORD                             { result = VarNode.new(val[0]) }
+    | WORD var_method_modifiers        { result = VarMethodNode.new(val[0],val[1]) }
+    ;
+
+  var_with_namespaces
+    : namespaces var_without_namespaces
+                                       { result = NamespacedVarNode.new(val[0],val[1]) }
+    ;
 
   var_method_modifiers
-         :
-         | var_method_modifier                          { result = val[0] }
-         | var_method_modifiers var_method_modifier     { result = val[0].merge(val[1]) }
-         ;
+    : var_method_modifier              { result = val[0] }
+    | var_method_modifiers var_method_modifier
+                                       { result = val[0].merge(val[1]) }
+    ;
 
   var_method_modifier
-        :  DOT swallow_newlines GROUP     { result = { group: val[2] } }
-         | DOT swallow_newlines WORD                          { result = { method: val[2] } }
-        ;
+    : DOT swallow_newlines WORD        { result = { method: val[2] } }
+    | DOT swallow_newlines GROUP LPAREN integer RPAREN
+                                       { result = { group: val[4] } }
+    ;
 
   namespaces
-    : WORD COLON COLON                     { result = val }
+    : ns                               { result = [val[0]] }
+    | namespaces ns                    { result = val[0] << val[1] }
+    ;
+
+  ns
+    : WORD COLON COLON                 { result = val[0] }
     ;
 
 
   expression
+    : unary_expression
+    | binary_expression
+    ;
+
+  unary_expression
     : factor                           { result = val[0] }
+    | address
     | BANG factor                      { result = ExpressionNode.new(val[1], "!", nil) }
-    | expression operator expression   { result = ExpressionNode.new(val[0], val[1], val[2]) }
+    ;
+
+  binary_expression
+    : expression operator expression
+                                       { result = ExpressionNode.new(val[0], val[1], val[2]) }
     ;
 
   operator

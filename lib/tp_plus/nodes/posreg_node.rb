@@ -20,6 +20,7 @@ module TPPlus
       }
 
       attr_accessor :comment
+      attr_reader :id
       def initialize(id)
         @id = id
         @comment = ""
@@ -60,11 +61,12 @@ module TPPlus
 
       def eval(context,options={})
         options[:method] ||= ""
-        options[:group] ||= ""
+
+        group_string = GROUPS["gp" + options[:group].eval(context).to_s] + ":" if options[:group]
 
         raise "Invalid component" unless component_valid?(options[:method]) || component_groups?(options[:group])
 
-        "PR[#{groups(options[:group])}#{@id}#{component(options[:method])}#{comment_string}]"
+        "PR[#{group_string}#{@id}#{component(options[:method])}#{comment_string}]"
       end
     end
   end

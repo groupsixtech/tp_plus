@@ -18,19 +18,16 @@ module TPPlus
         return false if @ids.include?(position_hash[:id])
         @ids.push(position_hash[:id])
 
-        if position_hash[:mask].is_a?(Array)
-          return false if position_hash[:mask].map {|q| mask_valid?(q) == false }.any?
-        else
-          mask_valid?(position_hash)
-        end
-
-        true
+        position_hash[:mask].select {|q|
+          !mask_valid?(q)
+        }.empty?
       end
 
       def mask_valid?(position_hash)
         return false unless position_hash[:group].is_a?(Fixnum)
         return false unless position_hash[:uframe].is_a?(Fixnum)
         return false unless position_hash[:utool].is_a?(Fixnum)
+
         if position_hash[:config].is_a?(Hash)
           return false unless boolean?(position_hash[:config][:flip])
           return false unless boolean?(position_hash[:config][:up])
@@ -43,6 +40,7 @@ module TPPlus
             return false unless position_hash[:components][component].is_a?(Float)
           end
         else
+          # must be joint representation
           return false unless position_hash[:components].is_a?(Hash)
           position_hash[:components].each do |component|
             return false unless component[1].is_a?(Float)

@@ -88,12 +88,9 @@ module TPPlus
 
       @position_data[:positions].inject("") do |s,p|
         s << %(P[#{p[:id]}:"#{p[:comment]}"]{\n)
-        if p[:mask].is_a?(Array)
-          p[:mask].each do |q|
-            s << pos_return(q)
-          end
-        else
-          s << pos_return(p)
+
+        p[:mask].each do |q|
+          s << pos_return(q)
         end
 
         s << %(\n};\n)
@@ -103,19 +100,17 @@ module TPPlus
     def pos_return(position_hash)
       s = ""
       if position_hash[:config].is_a?(Hash)
-        s << %(GP#{position_hash[:group]}:
-      UF : #{position_hash[:uframe]}, UT : #{position_hash[:utool]},  CONFIG : '#{position_hash[:config][:flip] ? 'F' : 'N'} #{position_hash[:config][:up] ? 'U' : 'D'} #{position_hash[:config][:top] ? 'T' : 'B'}, #{position_hash[:config][:turn_counts].join(', ')}',
-      X = #{position_hash[:components][:x]} mm, Y = #{position_hash[:components][:y]} mm, Z = #{position_hash[:components][:z]} mm,
-      W = #{position_hash[:components][:w]} deg, P = #{position_hash[:components][:p]} deg, R = #{position_hash[:components][:r]} deg\n)
+        s << %(   GP#{position_hash[:group]}:
+  UF : #{position_hash[:uframe]}, UT : #{position_hash[:utool]},  CONFIG : '#{position_hash[:config][:flip] ? 'F' : 'N'} #{position_hash[:config][:up] ? 'U' : 'D'} #{position_hash[:config][:top] ? 'T' : 'B'}, #{position_hash[:config][:turn_counts].join(', ')}',
+  X = #{position_hash[:components][:x]} mm, Y = #{position_hash[:components][:y]} mm, Z = #{position_hash[:components][:z]} mm,
+  W = #{position_hash[:components][:w]} deg, P = #{position_hash[:components][:p]} deg, R = #{position_hash[:components][:r]} deg)
       else
-        s << %(GP#{position_hash[:group]}:
-      UF : #{position_hash[:uframe]}, UT : #{position_hash[:utool]})
-        $i = 1
+        s << %(   GP#{position_hash[:group]}:
+  UF : #{position_hash[:uframe]}, UT : #{position_hash[:utool]})
         if position_hash[:components].is_a?(Hash)
-          position_hash[:components].each do |joint|
+          position_hash[:components].each_with_index do |key, joint|
             s << %(, \n)
-            s << %(\tJ#{$i} = #{joint[1]} deg)
-            $i+=1
+            s << %(\tJ#{key} = #{joint[1]} deg)
           end
           s << %(\n)
         end
