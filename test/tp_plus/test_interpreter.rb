@@ -945,6 +945,7 @@ end)
   UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
   X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
   W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
+
 };\n), @interpreter.pos_section
   end
 
@@ -1008,12 +1009,14 @@ end)
   UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
   X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
   W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
+
 };
 P[2:"test2"]{
    GP1:
   UF : 1, UT : 1,  CONFIG : 'F U T, 0, 0, 0',
   X = 0.0 mm, Y = 0.0 mm, Z = 0.0 mm,
   W = 0.0 deg, P = 0.0 deg, R = 0.0 deg
+
 };\n), @interpreter.pos_section
   end
 
@@ -1252,7 +1255,7 @@ P[2:"test2"]{
         'uframe' : 5,
         'utool' : 2,
         'components' : {
-            'J1' : 0.00
+            'J1' : -23.00
             }
         }]
     }
@@ -1260,9 +1263,16 @@ P[2:"test2"]{
 }
 end)
     assert_prog ""
-    #output = @interpreter.pos_section
-    #output = output
-    assert_equal 1, @interpreter.position_data[:positions].length
+    assert_equal %(P[1:\"\"]{
+   GP1:
+  UF : 5, UT : 2,  CONFIG : 'N U T, 0, 0, 0',
+  X = -0.59 mm, Y = -29.4 mm, Z = 1304.471 mm,
+  W = 78.512 deg, P = 89.786 deg, R = -11.595 deg
+   GP2:
+  UF : 5, UT : 2,\s
+	J1 = -23.0 deg
+
+};\n), @interpreter.pos_section
   end
 
   def test_conditional_equals_minus_one

@@ -91,6 +91,7 @@ module TPPlus
 
         p[:mask].each do |q|
           s << pos_return(q)
+          s << %(\n)
         end
 
         s << %(\n};\n)
@@ -108,11 +109,10 @@ module TPPlus
         s << %(   GP#{position_hash[:group]}:
   UF : #{position_hash[:uframe]}, UT : #{position_hash[:utool]})
         if position_hash[:components].is_a?(Hash)
-          position_hash[:components].each_with_index do |key, joint|
+          position_hash[:components].each_with_index do |key|
             s << %(, \n)
-            s << %(\tJ#{key} = #{joint[1]} deg)
+            s << %(\t#{key[0]} = #{key[1]} deg)
           end
-          s << %(\n)
         end
       end
 
