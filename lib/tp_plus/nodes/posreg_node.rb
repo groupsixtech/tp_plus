@@ -61,8 +61,11 @@ module TPPlus
 
       def eval(context,options={})
         options[:method] ||= ""
-
-        group_string = GROUPS["gp" + options[:group].eval(context).to_s] + ":" if options[:group]
+        if options[:group].is_a? DigitNode
+          group_string = GROUPS["gp" + options[:group].eval(context).to_s] + ":" if options[:group]
+        else
+          group_string = GROUPS[options[:group]] + ":" if options[:group]
+        end
 
         raise "Invalid component" unless component_valid?(options[:method]) || component_groups?(options[:group])
 

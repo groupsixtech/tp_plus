@@ -367,9 +367,10 @@ rule
     ;
 
   var_method_modifier
-    : DOT swallow_newlines WORD        { result = { method: val[2] } }
+    : DOT swallow_newlines GROUP       { result = { group: val[2] } }
     | DOT swallow_newlines GROUP LPAREN integer RPAREN
                                        { result = { group: val[4] } }
+    | DOT swallow_newlines WORD        { result = { method: val[2] } }
     ;
 
   namespaces
