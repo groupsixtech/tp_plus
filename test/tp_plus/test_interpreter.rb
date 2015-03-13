@@ -499,17 +499,17 @@ LBL[101:ghjk] ;\n)
   end
 
   def test_set_uframe_with_pr
-    parse("foo := PR[1]\nindirect('user_frame',5)=foo")
+    parse("foo := PR[1]\nindirect('uframe',5)=foo")
     assert_prog "UFRAME[5]=PR[1:foo] ;\n"
   end
 
   def test_set_uframe_with_constant
-    parse("foo := PR[1]\nBAR := 5\nindirect('user_frame',BAR)=foo")
+    parse("foo := PR[1]\nBAR := 5\nindirect('uframe',BAR)=foo")
     assert_prog "UFRAME[5]=PR[1:foo] ;\n"
   end
 
   def test_fanuc_set_uframe_with_reg
-    parse("foo := PR[1]\nbar := R[1]\nindirect('user_frame',bar)=foo")
+    parse("foo := PR[1]\nbar := R[1]\nindirect('uframe',bar)=foo")
     assert_prog "UFRAME[R[1:bar]]=PR[1:foo] ;\n"
   end
 
@@ -639,17 +639,17 @@ LBL[101:ghjk] ;\n)
   end
 
   def test_indirect_position_assignment
-    parse "foo := PR[1]\nfoo = indirect('position',5)"
+    parse "foo := PR[1]\nfoo = indirect('pos',5)"
     assert_prog "PR[1:foo]=P[5] ;\n"
   end
 
   def test_indirect_indirect_position_assignment
-    parse "foo := PR[1]\nbar := R[1]\nfoo = indirect('position',bar)"
+    parse "foo := PR[1]\nbar := R[1]\nfoo = indirect('pos',bar)"
     assert_prog "PR[1:foo]=P[R[1:bar]] ;\n"
   end
 
   def test_indirect_posreg_assignment
-    parse "foo := PR[1]\nfoo = indirect('position_register',5)"
+    parse "foo := PR[1]\nfoo = indirect('posreg',5)"
     assert_prog "PR[1:foo]=PR[5] ;\n"
   end
 
@@ -1041,7 +1041,7 @@ P[2:"test2"]{
   end
 
   def test_indirect_numreg
-    parse "foo := R[1]\nindirect('register',foo) = 5"
+    parse "foo := R[1]\nindirect('numreg',foo) = 5"
     assert_prog "R[R[1:foo]]=5 ;\n"
   end
 
@@ -1051,12 +1051,12 @@ P[2:"test2"]{
   end
 
   def test_indirect_raise
-    parse "raise indirect('user_alarm',1)"
+    parse "raise indirect('ualarm',1)"
     assert_prog "UALM[1] ;\n"
   end
 
   def test_indirect_indirect_raise
-    parse "foo := R[1]\nraise indirect('user_alarm',foo)"
+    parse "foo := R[1]\nraise indirect('ualarm',foo)"
     assert_prog "UALM[R[1:foo]] ;\n"
   end
 
@@ -1226,8 +1226,13 @@ P[2:"test2"]{
   end
 
   def test_pr_components_groups
-    parse("foo := PR[1]\nfoo.group(1).y=5\n")
+    parse("foo := PR[1]\nfoo.gp1.y=5\n")
     assert_prog "PR[GP1:1,2:foo]=5 ;\n"
+  end
+
+  def test_pr_components_groups2
+    parse("foo := PR[1]\nfoo.group(2).y=5\n")
+    assert_prog "PR[GP2:1,2:foo]=5 ;\n"
   end
 
   def test_position_data_with_mask
