@@ -63,6 +63,11 @@ class TestInterpreter < Test::Unit::TestCase
     assert_prog "LBL[100:foo] ;\n"
   end
 
+  def test_label_with_number_definition
+    parse("@foo2")
+    assert_prog "LBL[100:foo2] ;\n"
+  end
+
   def test_duplicate_label_definition
     parse("@foo\n@foo")
     assert_raise RuntimeError do
