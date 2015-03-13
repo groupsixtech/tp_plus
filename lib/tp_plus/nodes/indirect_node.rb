@@ -8,19 +8,19 @@ module TPPlus
 
       def string
         case @type
-        when :position
+        when :pos
           "P"
-        when :position_register
+        when :posreg
           "PR"
         when :flag
           "F"
         when :timer
           "TIMER"
-        when :register
+        when :numreg
           "R"
-        when :user_alarm
+        when :ualarm
           "UALM"
-        when :user_frame
+        when :uframe
           "UFRAME"
         else
           raise "Invalid indirect type"
