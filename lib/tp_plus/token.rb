@@ -17,6 +17,7 @@ module TPPlus
         "joint_move" => :MOVE,
         "jump_to" => :JUMP,
         "linear_move" => :MOVE,
+        "LPOS"        => :LPOS,
         "namespace" => :NAMESPACE,
         "offset" => :OFFSET,
         "pause" => :PAUSE,

@@ -500,4 +500,9 @@ end)
     assert_equal "Parse error on line 1 column 5: \"bar\" (WORD)", e.message
   end
 
+  def test_parse_lpos
+    parse "foo := R[1]\n foo = LPOS"
+    assert_node_type AssignmentNode, last_node
+  end
+
 end

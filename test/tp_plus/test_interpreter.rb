@@ -1331,4 +1331,11 @@ foo = &foo")
       assert_prog ""
     end
   end
+
+  def test_lpos
+    parse("foo := R[1]
+foo = LPOS")
+    assert_prog "R[1:foo]=LPOS ;\n"
+  end
+
 end

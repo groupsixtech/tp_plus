@@ -3,7 +3,7 @@ token ASSIGN AT_SYM COMMENT JUMP IO_METHOD INPUT OUTPUT
 token NUMREG POSREG VREG SREG TIME_SEGMENT ARG UALM
 token MOVE DOT TO AT TERM OFFSET SKIP GROUP
 token SEMICOLON NEWLINE STRING
-token REAL DIGIT WORD EQUAL
+token REAL DIGIT WORD EQUAL LPOS
 token EEQUAL NOTEQUAL GTE LTE LT GT BANG
 token PLUS MINUS STAR SLASH DIV AND OR MOD
 token IF ELSE END UNLESS FOR IN WHILE
@@ -422,6 +422,11 @@ rule
     | var
     | indirect_thing
     | paren_expr
+    | lpos
+    ;
+
+  lpos
+    : LPOS {result = LPOSNode.new(val[0])}
     ;
 
   paren_expr

@@ -577,4 +577,9 @@ class TestScanner < Test::Unit::TestCase
     assert_token :GROUP, "group"
   end
 
+  def scanner_test_lpos
+    @scanner.scan_setup "LPOS"
+    assert_token :LPOS, "LPOS"
+  end
+
 end
