@@ -500,9 +500,4 @@ end)
     assert_equal "Parse error on line 1 column 5: \"bar\" (WORD)", e.message
   end
 
-  def test_group
-    parse("foo := PR[1]\nfoo.gp1\n")
-    assert_node_type VarMethodNode, last_node
-  end
-
 end
