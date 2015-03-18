@@ -101,7 +101,7 @@ rule 91 motion_modifiers: motion_modifier
 rule 92 motion_modifiers: motion_modifiers motion_modifier
 rule 93 motion_modifier: DOT swallow_newlines AT LPAREN speed RPAREN
 rule 94 motion_modifier: DOT swallow_newlines TERM LPAREN valid_terminations RPAREN
-rule 95 motion_modifier: DOT swallow_newlines OFFSET LPAREN var RPAREN
+rule 95 motion_modifier: DOT swallow_newlines OFFSET LPAREN var_or_indirect RPAREN
 rule 96 motion_modifier: DOT swallow_newlines TIME_SEGMENT LPAREN time COMMA time_seg_actions RPAREN
 rule 97 motion_modifier: DOT swallow_newlines SKIP LPAREN label optional_lpos_arg RPAREN
 rule 98 valid_terminations: integer
@@ -309,7 +309,7 @@ rule 212 array_value: hash_value
     on right: 31
     on left : 32 33
   var_or_indirect (114)
-    on right: 34 35 58 59 60 113 114 115
+    on right: 34 35 58 59 60 95 113 114 115
     on left : 61 62
   indirectable (115)
     on right: 37 44 46 109 157
@@ -345,7 +345,7 @@ rule 212 array_value: hash_value
     on right: 53 60 75 103 108 149 170
     on left : 161 162
   var (126)
-    on right: 54 61 66 69 71 76 90 95 99 101 104 107 151
+    on right: 54 61 66 69 71 76 90 99 101 104 107 151
     on left : 116 117
   string (127)
     on right: 55
@@ -4099,7 +4099,7 @@ state 335
 
   93) motion_modifier : DOT _ swallow_newlines AT LPAREN speed RPAREN
   94) motion_modifier : DOT _ swallow_newlines TERM LPAREN valid_terminations RPAREN
-  95) motion_modifier : DOT _ swallow_newlines OFFSET LPAREN var RPAREN
+  95) motion_modifier : DOT _ swallow_newlines OFFSET LPAREN var_or_indirect RPAREN
   96) motion_modifier : DOT _ swallow_newlines TIME_SEGMENT LPAREN time COMMA time_seg_actions RPAREN
   97) motion_modifier : DOT _ swallow_newlines SKIP LPAREN label optional_lpos_arg RPAREN
 
@@ -4180,7 +4180,7 @@ state 344
 
   93) motion_modifier : DOT swallow_newlines _ AT LPAREN speed RPAREN
   94) motion_modifier : DOT swallow_newlines _ TERM LPAREN valid_terminations RPAREN
-  95) motion_modifier : DOT swallow_newlines _ OFFSET LPAREN var RPAREN
+  95) motion_modifier : DOT swallow_newlines _ OFFSET LPAREN var_or_indirect RPAREN
   96) motion_modifier : DOT swallow_newlines _ TIME_SEGMENT LPAREN time COMMA time_seg_actions RPAREN
   97) motion_modifier : DOT swallow_newlines _ SKIP LPAREN label optional_lpos_arg RPAREN
 
@@ -4254,7 +4254,7 @@ state 352
 
 state 353
 
-  95) motion_modifier : DOT swallow_newlines OFFSET _ LPAREN var RPAREN
+  95) motion_modifier : DOT swallow_newlines OFFSET _ LPAREN var_or_indirect RPAREN
 
   LPAREN        shift, and go to state 361
 
@@ -4334,11 +4334,14 @@ state 360
 
 state 361
 
-  95) motion_modifier : DOT swallow_newlines OFFSET LPAREN _ var RPAREN
+  95) motion_modifier : DOT swallow_newlines OFFSET LPAREN _ var_or_indirect RPAREN
 
   WORD          shift, and go to state 72
+  INDIRECT      shift, and go to state 60
 
-  var           go to state 374
+  var           go to state 39
+  indirect_thing  go to state 40
+  var_or_indirect  go to state 374
   var_without_namespaces  go to state 56
   var_with_namespaces  go to state 57
   namespaces    go to state 58
@@ -4452,7 +4455,7 @@ state 373
 
 state 374
 
-  95) motion_modifier : DOT swallow_newlines OFFSET LPAREN var _ RPAREN
+  95) motion_modifier : DOT swallow_newlines OFFSET LPAREN var_or_indirect _ RPAREN
 
   RPAREN        shift, and go to state 384
 
@@ -4524,7 +4527,7 @@ state 383
 
 state 384
 
-  95) motion_modifier : DOT swallow_newlines OFFSET LPAREN var RPAREN _
+  95) motion_modifier : DOT swallow_newlines OFFSET LPAREN var_or_indirect RPAREN _
 
   $default      reduce using rule 95 (motion_modifier)
 
