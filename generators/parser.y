@@ -281,7 +281,7 @@ rule
                                        { result = SpeedNode.new(val[4]) }
     | DOT swallow_newlines TERM LPAREN valid_terminations RPAREN
                                        { result = TerminationNode.new(val[4]) }
-    | DOT swallow_newlines OFFSET LPAREN var RPAREN
+    | DOT swallow_newlines OFFSET LPAREN var_or_indirect RPAREN
                                        { result = OffsetNode.new(val[2],val[4]) }
     | DOT swallow_newlines TIME_SEGMENT LPAREN time COMMA time_seg_actions RPAREN
                                        { result = TimeNode.new(val[2],val[4],val[6]) }
