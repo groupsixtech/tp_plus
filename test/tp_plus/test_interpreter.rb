@@ -1348,4 +1348,9 @@ foo = LPOS")
     assert_prog "L PR[AR[1]] 2000mm/sec CNT0 ;\n"
   end
 
+  def test_pr_components_indirect
+    parse("arg := AR[1]\nindirect('posreg', arg).gp1.y=5\n")
+    assert_prog "PR[GP1:AR[1],2]=5 ;\n"
+  end
+
 end

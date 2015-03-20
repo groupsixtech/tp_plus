@@ -436,6 +436,8 @@ rule
   indirect_thing
     : INDIRECT LPAREN STRING COMMA indirectable RPAREN
                                       { result = IndirectNode.new(val[2].to_sym, val[4]) }
+    | INDIRECT LPAREN STRING COMMA indirectable RPAREN var_method_modifiers
+                                      { result = IndirectMethodNode.new(val[2].to_sym, val[4], val[6]) }
     ;
 
   signed_number
