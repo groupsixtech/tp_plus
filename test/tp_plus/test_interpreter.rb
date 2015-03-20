@@ -1343,4 +1343,9 @@ foo = LPOS")
     assert_prog "L P[1:p] 100mm/sec CNT0 Offset,PR[AR[1]] ;\n"
   end
 
+  def test_indirect_motion_to_a_position
+    parse("foo := AR[1]\nlinear_move.to(indirect('posreg', foo)).at(2000, 'mm/s').term(0)")
+    assert_prog "L PR[AR[1]] 2000mm/sec CNT0 ;\n"
+  end
+
 end

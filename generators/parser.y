@@ -266,7 +266,7 @@ rule
     ;
 
   motion_statement
-    : MOVE DOT swallow_newlines TO LPAREN var RPAREN motion_modifiers
+    : MOVE DOT swallow_newlines TO LPAREN var_or_indirect RPAREN motion_modifiers
                                        { result = MotionNode.new(val[0],val[5],val[7]) }
     ;
 
