@@ -110,8 +110,13 @@ module TPPlus
   UF : #{position_hash[:uframe]}, UT : #{position_hash[:utool]})
         if position_hash[:components].is_a?(Hash)
           position_hash[:components].each_with_index do |key|
-            s << %(, \n)
-            s << %(\t#{key[0]} = #{key[1]} deg)
+            if key[1].is_a?(Array)
+              s << %(, \n)
+              s << %(\t#{key[0]} = #{key[1][0]} #{key[1][1]})
+            else
+              s << %(, \n)
+              s << %(\t#{key[0]} = #{key[1]} deg)
+            end
           end
         end
       end

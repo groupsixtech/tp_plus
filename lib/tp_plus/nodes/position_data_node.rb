@@ -21,6 +21,12 @@ module TPPlus
         return false unless position_hash[:mask].is_a? Array
 
         position_hash[:mask].select {|q|
+          if position_hash.key?(:uframe)
+            q[:uframe] = position_hash[:uframe]
+          end
+          if position_hash.key?(:utool)
+            q[:utool] = position_hash[:utool]
+          end
           !mask_valid?(q)
         }.empty?
       end
@@ -45,7 +51,11 @@ module TPPlus
           # must be joint representation
           return false unless position_hash[:components].is_a?(Hash)
           position_hash[:components].each do |component|
-            return false unless component[1].is_a?(Float)
+            if component[1].is_a?(Array)
+              return false unless component[1][1] == 'deg' || 'mm'
+            else
+              return false unless component[1].is_a?(Float)
+            end
           end
         end
 

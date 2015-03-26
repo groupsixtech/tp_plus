@@ -1241,10 +1241,10 @@ P[2:"test2"]{
   'positions' : [
     {
       'id' : 1,
+      'uframe' : 5,
+      'utool' : 2,
       'mask' :  [{
         'group' : 1,
-        'uframe' : 5,
-        'utool' : 2,
         'config' : {
             'flip' : false,
             'up'   : true,
@@ -1262,10 +1262,8 @@ P[2:"test2"]{
         },
         {
         'group' : 2,
-        'uframe' : 5,
-        'utool' : 2,
         'components' : {
-            'J1' : -23.00
+            'J1' : [-23.00, 'mm']
             }
         }]
     }
@@ -1280,7 +1278,7 @@ end)
   W = 78.512 deg, P = 89.786 deg, R = -11.595 deg
    GP2:
   UF : 5, UT : 2,\s
-	J1 = -23.0 deg
+	J1 = -23.0 mm
 
 };\n), @interpreter.pos_section
   end
