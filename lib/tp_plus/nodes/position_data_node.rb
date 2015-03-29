@@ -52,7 +52,7 @@ module TPPlus
           return false unless position_hash[:components].is_a?(Hash)
           position_hash[:components].each do |component|
             if component[1].is_a?(Array)
-              return false unless component[1][1] == 'deg' || 'mm'
+              return false unless component[1][1] == 'deg' || component[1][1] == 'mm'
             else
               return false unless component[1].is_a?(Float)
             end
