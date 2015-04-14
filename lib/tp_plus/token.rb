@@ -76,12 +76,14 @@ module TPPlus
         "UALM" => :UALM,
 
         "F" => :OUTPUT,
+        "AO" => :OUTPUT,
         "DO" => :OUTPUT,
         "RO" => :OUTPUT,
         "UO" => :OUTPUT,
         "SO" => :OUTPUT,
         "GO" => :OUTPUT,
 
+        "AI" => :INPUT,
         "DI" => :INPUT,
         "RI" => :INPUT,
         "UI" => :INPUT,

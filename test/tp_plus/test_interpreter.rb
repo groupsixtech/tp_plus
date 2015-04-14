@@ -1356,4 +1356,14 @@ foo = LPOS")
     assert_prog "C PR[1:foo] PR[2:foo2] 2000mm/sec CNT100 COORD ;\n"
   end
 
+  def test_analogin
+    parse("foo := AI[1]\nfoo = 20")
+    assert_prog "AI[1:foo]=(20) ;\n"
+  end
+
+  def test_analogout
+    parse("foo := AO[1]\nfoo = 20")
+    assert_prog "AO[1:foo]=20 ;\n"
+  end
+
 end
