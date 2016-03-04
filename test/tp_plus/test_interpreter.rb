@@ -1164,6 +1164,16 @@ P[2:"test2"]{
     assert_prog "R[1:foo]=5 MOD 2 ;\n"
   end
 
+  def test_modulus_in_if
+    parse %(foo := R[1]\nis := R[2]\n is = 2\n if is % 0 == 0 \n foo = 5 \n end)
+    assert_prog "R[2:is]=2 ;\nIF (R[2:is] MOD 0=0),R[1:foo]=(5) ;\n"
+  end
+
+  def test_modulus_in_if_logic
+    parse %(foo := R[1]\nis := R[2]\n is = 2\n if is % 0 == 0 \n foo = 5\nGO_TO1() \n end)
+    assert_prog "R[2:is]=2 ;\nIF (R[2:is] MOD 0<>0),JMP LBL[100] ;\nR[1:foo]=5 ;\nCALL GO_TO1 ;\nLBL[100] ;\n"
+  end
+
   def test_assignment_to_sop
     parse %(foo := DO[1]\nbar := SO[1]\nfoo = bar)
     assert_prog "DO[1:foo]=(SO[1:bar]) ;\n"
@@ -1263,7 +1273,8 @@ P[2:"test2"]{
         {
         'group' : 2,
         'components' : {
-            'J1' : [-23.00, 'mm']
+            'J1' : [-23.00, 'mm'],
+            'J2' : [-23.00, 'deg']
             }
         }]
     }
@@ -1271,16 +1282,8 @@ P[2:"test2"]{
 }
 end)
     assert_prog ""
-    assert_equal %(P[1:\"\"]{
-   GP1:
-  UF : 5, UT : 2,  CONFIG : 'N U T, 0, 0, 0',
-  X = -0.59 mm, Y = -29.4 mm, Z = 1304.471 mm,
-  W = 78.512 deg, P = 89.786 deg, R = -11.595 deg
-   GP2:
-  UF : 5, UT : 2,\s
-	J1 = -23.0 mm
-
-};\n), @interpreter.pos_section
+    assert_equal %(P[1:\"\"]{\n   GP1:\n  UF : 5, UT : 2,  CONFIG : 'N U T, 0, 0, 0',\n  X = -0.59 mm, Y = -29.4 mm, Z = 1304.471 mm,\n  W = 78.512 deg, P = 89.786 deg, R = -11.595 deg\n   GP2:\n  UF : 5, UT : 2, \n\tJ1 = -23.0 mm, \n\tJ2 = -23.0 deg\n\n};
+), @interpreter.pos_section
   end
 
   def test_conditional_equals_minus_one
