@@ -22,6 +22,8 @@ module TPPlus
           "UALM"
         when :uframe
           "UFRAME"
+        when :utool
+          "UTOOL"
         else
           raise "Invalid indirect type"
         end
