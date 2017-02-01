@@ -17,6 +17,16 @@ module TPPlus
         "#{@id}"
       end
 
+      def type(context)
+        "#{@type}"
+      end
+
+      def comment_string
+        return "" if @comment == ""
+
+        ":#{@comment}"
+      end
+
       def result
         "#{@type}[#{@id}:#{@comment}]"
       end

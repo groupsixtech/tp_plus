@@ -10,6 +10,10 @@ OptionParser.new do |opts|
     options[:environment] = e
   end
 
+  opts.on("-ke", "--karelenv") do |k|
+    options[:karelenv] = k
+  end
+
   opts.on("-o", "--output <file>", "Write output to <file>") do |o|
     options[:output] = o
   end
@@ -47,6 +51,30 @@ def contents(filename)
   return src
 end
 
+def getType(val)
+  if (val.is_a?(TPPlus::Nodes::NumregNode))
+    tp = 'R'
+  elsif (val.is_a?(TPPlus::Nodes::PosregNode))
+    tp = 'PR'
+  elsif (val.is_a?(TPPlus::Nodes::IONode))
+    tp = val.type(self)
+  end
+
+  return tp
+end
+
+def buildkarelenv(vars)
+  src = ""
+  vars.each do |key, value|
+    if !(value.is_a?(TPPlus::Nodes::TimerNode))
+      tp = getType(value)
+      src << %(kunit_test('#{value.comment_string[1..-1]}', kunit_assert(hashPut('#{value.comment_string[1..-1]}', '#{tp}[#{value.address(self)}]', 'varList', 'varTable'))) \n\t)
+    end
+  end
+
+  return src
+end
+
 scanner = TPPlus::Scanner.new
 parser = TPPlus::Parser.new(scanner)
 interpreter = parser.interpreter
@@ -54,35 +82,52 @@ if options[:environment]
   interpreter.load_environment(contents(options[:environment]))
 end
 
-src = contents(ARGV[0])
+if options[:karelenv]
+  # create variable hash table for karel applications
+  src = buildkarelenv(interpreter.variables)
 
-scanner.scan_setup(src)
-parser.parse
+  output = %(PROGRAM varLstCrt \n%NOLOCKGROUP \nCONST \n\t%INCLUDE includes/hash.c
+TYPE \n\t%INCLUDE includes/hash.t\n\n%INCLUDE includes/hash.h \n%INCLUDE includes/kunit.h
+BEGIN \n\t hashClear( 'varList', 'varTable')\n\t)
 
-lines = interpreter.eval
+  output += %(#{src}\n)
+  output += %(\tkunit_done\n)
 
-output = %(/PROG #{tpp_filename.upcase}
-/ATTR
-COMMENT = "#{interpreter.header_data[:comment] || tpp_filename.upcase}";
-TCD:  STACK_SIZE	= 0,
-      TASK_PRIORITY	= 50,
-      TIME_SLICE	= 0,
-      BUSY_LAMP_OFF	= 0,
-      ABORT_REQUEST	= 0,
-      PAUSE_REQUEST	= #{interpreter.header_data[:ignore_pause] ? "7" : "0"};
-DEFAULT_GROUP = #{interpreter.header_data[:group_mask] || "1,*,*,*,*"};
-/MN\n)
+  output += %(END varLstCrt)
 
-lines.each_line do |line|
-  output += " : " + line
+else
+  # translate file
+  src = contents(ARGV[0])
+
+  scanner.scan_setup(src)
+  parser.parse
+
+  lines = interpreter.eval
+
+  output = %(/PROG #{tpp_filename.upcase}
+  /ATTR
+  COMMENT = "#{interpreter.header_data[:comment] || tpp_filename.upcase}";
+  TCD:  STACK_SIZE	= 0,
+        TASK_PRIORITY	= 50,
+        TIME_SLICE	= 0,
+        BUSY_LAMP_OFF	= 0,
+        ABORT_REQUEST	= 0,
+        PAUSE_REQUEST	= #{interpreter.header_data[:ignore_pause] ? "7" : "0"};
+  DEFAULT_GROUP = #{interpreter.header_data[:group_mask] || "1,*,*,*,*"};
+  /MN\n)
+
+  lines.each_line do |line|
+    output += " : " + line
+  end
+
+  if interpreter.pos_section != ""
+    output += "/POS\n"
+    output += interpreter.pos_section
+  end
+
+  output += %(/END\n)
+
 end
-
-if interpreter.pos_section != ""
-  output += "/POS\n"
-  output += interpreter.pos_section
-end
-
-output += %(/END\n)
 
 if options[:output]
   # write to file
