@@ -9,8 +9,13 @@ module TPPlus
         false
       end
 
+      def moveType(context)
+
+      end
+
       def eval(context,options={})
-        "LPOS"
+        #"LPOS"
+        "#{@type}"
       end
     end
   end

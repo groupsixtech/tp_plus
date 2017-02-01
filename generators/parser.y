@@ -3,7 +3,7 @@ token ASSIGN AT_SYM COMMENT JUMP IO_METHOD INPUT OUTPUT
 token NUMREG POSREG VREG SREG TIME_SEGMENT ARG UALM
 token MOVE DOT TO FROM AT TERM OFFSET SKIP GROUP COORD
 token SEMICOLON NEWLINE STRING
-token REAL DIGIT WORD EQUAL LPOS
+token REAL DIGIT WORD EQUAL LPOS JPOS
 token EEQUAL NOTEQUAL GTE LTE LT GT BANG
 token PLUS MINUS STAR SLASH DIV AND OR MOD
 token IF ELSE END UNLESS FOR IN WHILE
@@ -231,6 +231,9 @@ rule
         terminator                      { result = CaseConditionNode.new(val[1],val[3]) }
     ;
 
+    #| WHEN case_allowed_condition swallow_newlines block
+    #          terminator                      { result = CaseBlockNode.new(val[1],val[3]) }
+
   case_allowed_condition
     : number
     | var
@@ -239,8 +242,10 @@ rule
   case_else
     : ELSE swallow_newlines case_allowed_statement terminator
                                         { result = CaseConditionNode.new(nil,val[2]) }
-    |
+     |
     ;
+      #| ELSE swallow_newlines block terminator
+      #                                          { result = CaseBlockNode.new(nil,val[2]) }
 
   case_allowed_statement
     : program_call
@@ -427,6 +432,11 @@ rule
     | indirect_thing
     | paren_expr
     | lpos
+    | jpos
+    ;
+
+  jpos
+    : JPOS {result = LPOSNode.new(val[0])}
     ;
 
   lpos

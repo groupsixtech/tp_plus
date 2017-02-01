@@ -20,6 +20,7 @@ module TPPlus
         "jump_to" => :JUMP,
         "linear_move" => :MOVE,
         "LPOS"        => :LPOS,
+        "JPOS"      => :JPOS,
         "namespace" => :NAMESPACE,
         "offset" => :OFFSET,
         "pause" => :PAUSE,

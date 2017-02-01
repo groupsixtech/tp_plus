@@ -513,6 +513,11 @@ LBL[101:ghjk] ;\n)
     assert_prog "UFRAME[R[1:bar]]=PR[1:foo] ;\n"
   end
 
+  def test_fanuc_set_utool
+    parse("foo := PR[1]\nbar := R[1]\nindirect('utool',bar)=foo")
+    assert_prog "UTOOL[R[1:bar]]=PR[1:foo] ;\n"
+  end
+
   def test_set_skip_condition
     parse("foo := RI[1]\nset_skip_condition foo")
     assert_prog "SKIP CONDITION RI[1:foo]=ON ;\n"
@@ -1339,6 +1344,13 @@ foo = LPOS")
     assert_prog "R[1:foo]=LPOS ;\n"
   end
 
+  def test_jpos
+    parse("foo := R[1]
+foo = JPOS")
+    assert_prog "R[1:foo]=JPOS ;\n"
+  end
+
+
   def test_motion_indirect_offset
     parse("p := P[1]\no := PR[1]\nfoo := AR[1]\nlinear_move.to(p).at(100, 'mm/s').term(0).offset(indirect('posreg', foo))")
     assert_prog "L P[1:p] 100mm/sec CNT0 Offset,PR[AR[1]] ;\n"
@@ -1367,6 +1379,11 @@ foo = LPOS")
   def test_analogout
     parse("foo := AO[1]\nfoo = 20")
     assert_prog "AO[1:foo]=20 ;\n"
+  end
+
+  def testenvdef
+    parse("foo := R[1]\n a := F[2] \n b := DI[3] \n c := PR[4] \n d := R[5] \n foo=3 \n")
+    assert_prog "R[1:foo]=3 ;\n"
   end
 
 end
