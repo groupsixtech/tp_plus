@@ -53,7 +53,7 @@ module TPPlus
         when "linear_move"
           return true if speed_node.eval(context) == "max_speed"
 
-          ["mm/sec"].include? speed_node.units
+          ["mm/sec"].include? speed_node.units or ["deg/sec"].include? speed_node.units
         when "circular_move"
             return true if speed_node.eval(context) == "max_speed"
 

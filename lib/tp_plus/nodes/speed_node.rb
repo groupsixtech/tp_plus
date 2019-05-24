@@ -13,6 +13,8 @@ module TPPlus
         case @speed_hash[:units]
         when "mm/s"
           "mm/sec"
+        when "deg/s"
+          "deg/sec"
         else
           @speed_hash[:units]
         end

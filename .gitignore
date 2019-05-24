@@ -16,3 +16,6 @@ lib/tp_plus/parser.rb
 lib/tp_plus/parser.output
 lib/tp_plus/parser.output
 vars.tpp
+*.un~
+*.rb~
+*.bak
