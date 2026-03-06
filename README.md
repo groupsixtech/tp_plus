@@ -22,9 +22,14 @@ TP+ is a higher-level language abstraction that translates into FANUC TP. It fea
 
 > This branch was forked from the archived repo [TP+](https://github.com/onerobotics/tp_plus)
 
-> [!NEW]
-> * A Preprocessor [ppr](https://github.com/civol/ppr) was added! See [examples.md](https://github.com/kobbled/tp_plus/blob/master/examples.md#preprocessor) for details.
-> * Local variables can be declared! See [examples.md](https://github.com/kobbled/tp_plus/blob/master/examples.md#local-variables) for details.
+
+>[!INFO]
+> Agent docs have been added for including this repo in context window for LLM agents to write TP+ code.
+> 
+
+
+> [!INFO]
+> * TP+ Uses the preprocessor: [ppr](https://github.com/civol/ppr) See [examples.md](https://github.com/kobbled/tp_plus/blob/master/examples.md#preprocessor) for details.
 
 > [!INFO]
 > * see [Features](#features) for a quick look at the features
@@ -71,11 +76,11 @@ Install
 ```shell
 set PATH=%PATH%;\path\to\tp_plus\bin
 ```
-10. You will have to manually update ppr to kobbled fork, as gem is not updated. clone:
+1.  You will have to manually update ppr to kobbled fork, as gem is not updated. clone:
 ```shell
 git clone https://github.com/kobbled/ppr
 ```
-11.  Go to ppr gem location (i.e. `C:\Ruby34-x64\lib\ruby\gems\3.4.0\gems\ppr-0.0.8`) copy `bin` and `lib` folder over from `kobbled/ppr`, and replace all files.
+1.   Go to ppr gem location (i.e. `C:\Ruby34-x64\lib\ruby\gems\3.4.0\gems\ppr-0.0.8`) copy `bin` and `lib` folder over from `kobbled/ppr`, and replace all files.
 
 > [!INFO]
 > Alternatively there is a docker image located in the [docker-container](https://github.com/kobbled/tp_plus/tree/docker-container) branch. However due to Roboguide and Fanuc tools being windows only, the workflow is too awkward for the standard user and is not recommended. Furthermore, the build tools [vscode-tpp-extension](https://github.com/kobbled/vscode-tpp-extension), and [Rossum](https://github.com/kobbled/rossum) currently do not have docker interoperability support. 
